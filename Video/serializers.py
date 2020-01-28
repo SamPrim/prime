@@ -1,7 +1,8 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from .models import *
 
 class membreSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Membre
-        fields = ('id','nom')
+        model = User
+        fields = ('id','username')

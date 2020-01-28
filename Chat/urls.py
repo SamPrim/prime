@@ -21,7 +21,9 @@ from Video import views
 
 
 urlpatterns = [ 
-    url(r'^$', views.index),
+    url(r'^$', views.index, name='index'),
     path('admin/', admin.site.urls),
-    path('chat/', include('Video.urls'))
+    path('chat/', include('Video.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('register/', views.register, name="register")
 ]

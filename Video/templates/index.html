@@ -7,10 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>LIST API</h3>
-    <h2>Bienvenu, accedez à la liste des membres connectes <a href="{% url 'chat:home' %}">ICI</a> </h2>
-    {% for k in liste %}
-        <li>{{k.nom}}</li>
-    {% endfor %}
+    <h1>Page confirmation</h1>
+    {% if user.is_authenticated %}
+    <p>Your name is: {{user.username}}. Connectez vous à votre espace <a href="{% url 'chat:mapage' user.pk%}">Ici</a></p>
+    {% else %}
+    <p>Your are not logged <a href="{% url 'login' %}">Log in</a> or <a href="{% url 'register' %}">Sign in</a></p>
+    {% endif %}
 </body>
 </html>

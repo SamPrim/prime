@@ -8,8 +8,10 @@ router = routers.DefaultRouter()
 router.register(r'membre', views.membresViewSet)
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('list', views.membres, name='listes'),
-    path('<int:id>/home', views.page, name='page'),
-    path('api/', include(router.urls)),
+    #path('', views.home, name='home'),
+    path('<int:id>/home', views.home, name='mapage'),
+    path('api/', include(router.urls))
 ]
+"""path('list', views.membres, name='listes'),
+
+,"""

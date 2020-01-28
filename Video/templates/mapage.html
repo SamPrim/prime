@@ -7,6 +7,15 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>Page utilisateur {{id}}</h2>
+    <h2>Page utilisateur {{user.pk}}</h2>
+    <h3><a href="{% url 'logout' %}">Log out</a></h3>
+    <h1>Liste des Amis</h1>
+    <ul>
+        {% for k in listeAmis %}
+            {% if user.username != k.username %}
+            <li>{{k.username}}   <span id="{{k.id}}" name="{{k.username}}" style="color: cornflowerblue;">appelvideo</span></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
 </body>
 </html>
