@@ -1,0 +1,273 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Page utilisateur {{user.pk}}</h2>
+    <h3><a href="{% url 'logout' %}">Log out</a></h3>
+    <h1>Liste des Amis</h1>
+    <button id="cal" class="video" onclick="call('cal')" >Appeler Video</button> <button id="call" onclick="call('call')" class="vocal" >Appeler Vocal</button>
+    <textarea hidden id="caller" ></textarea><textarea hidden id="receive-text" ></textarea>
+    <div class="container">
+        <div class="row">
+            <div class="col-3" style="height: 30%; width: 30%">
+                <div id="video-send"></div>
+            </div>
+            <div class="col-3" >
+                <div id="video-receive"></div>
+            </div>
+            <br>
+        </div>
+    </div>
+    <button id="repondre" onclick="receive()">Repondre</button>
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/9.6.2/simplepeer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+
+<script>
+    //document.getElementById('call').addEventListener('click',  // remove document.getElementById
+    function call(call){                          ///////////////////////////////////////////////////
+        var id=pk
+        var type_call="" /////////////
+        var initiator = false
+        var nom = $("#"+pk).attr('name')
+        window.location.hostname+':8000/chat/video/'+id
+        var socket = new ReconnectingWebSocket(
+            'ws://localhost:8000/ws/chat/' + id + '');
+        var initChatVideo = false
+        let i = 0
+        let peer = null
+        let playaudio= true
+        socket.onopen = function(){
+            console.log("Connexion emetter établie.");
+            socket.onerror = function(error) {
+                console.error(error);
+            };
+            socket.onclose = function(event) {
+            console.log("Connexion emetter terminé.");
+            };
+            socket.onmessage= function(e){
+            console.log('nouveau message', e)
+            var data = JSON.parse(e.data);
+            var message = data['message'];
+            type_call=data['call']                       ///////////////////////////////
+            console.log('nouveau message', message)
+            i = i + 1
+            console.log(i)
+                //console.log('num',i,'initiator',peer)
+            // if(initiator != true){
+                document.querySelector("#receive-text").value = message
+                if(peer.initiator == true && i==2){
+                    console.log('new signal')
+                    peer.signal(JSON.parse(document.querySelector('#receive-text').value))
+                }
+    
+            }
+            socket.onclose = function(e) {
+                console.error('Chat socket closed unexpectedly');
+            }
+            /*socket.send(JSON.stringify({
+                'message': "Bonjour"
+            }));*/
+        }
+        function bindEvent(p){
+            console.log('simplepeer',p)
+            p.on('error', function(err) {
+                console.log('error', err)
+            })
+   
+            p.on('signal', function(data){
+                document.querySelector('#caller').textContent = JSON.stringify(data)
+                var text = document.querySelector("#caller").value
+                console.log(type_call)
+                  socket.send(JSON.stringify({
+                    'message': text,
+                    'call': type_call                             /////////////////////////////
+                }));
+                console.log('test send message')
+            })
+   
+            p.on('stream', function(stream){
+              let emitterVideo = document.createElement('video')
+              document.getElementById('video-receive').appendChild(emitterVideo)
+              emitterVideo.srcObject = stream
+              emitterVideo.play()
+            })
+   
+            document.querySelector('#repondre').addEventListener('click',function(e){
+              console.log('hello word')
+              p.signal(JSON.parse(document.querySelector('#receive-text').value))
+            })
+        }
+        function startpeerjs(initiator, type_call) {                               ////////////////////////////
+            navigator.mediaDevices.getUserMedia({video:type_call, audio: true}).then(function(stream) {   /////////////
+     
+               peer = new SimplePeer({
+                    initiator: initiator,
+                    stream: stream,
+                    trickle: false,
+                    reconnectTimer: 100,
+                    iceTransportPolicy: 'relay',
+                    config: {
+                
+                        iceServers: [
+                            {
+                                urls: "stun:stun.l.google:19302",
+                                username: "",
+                                credential: ""
+                            },
+                            {
+                                urls: "stun:global.stun.twilio.com:3478?transport=udp",
+                                username: "",
+                                credential: ""
+                            }
+                        ]
+                    }
+                })
+                console.log('test test')
+                 window.initChatVideo = initiator
+     
+                bindEvent(peer)
+            /* use the stream */
+            let emitterVideo = document.createElement('video')
+            document.getElementById('video-send').appendChild(emitterVideo)
+            emitterVideo.srcObject = stream
+            emitterVideo.volume = 1
+            emitterVideo.play()
+            if(peer.initiator == false){
+                peer.signal(JSON.parse(document.querySelector('#receive-text').value))
+             }
+            console.log('stream',initiator)
+            // socket.emit('new message',emitterVideo.srcObject)
+            }).catch(function(err) {
+            /* handle the error */
+            });
+        }
+        var call_type=document.getElementById(call).getAttribute('class')    ///////
+        if(call_type=="video"){                                             /////////   
+            type_call="video"
+            startpeerjs(true, true)   
+        }
+        else if(call_type=="vocal"){
+            type_call="audio"
+            startpeerjs(true, false)                                        //////
+        }
+            
+}
+</script>
+<script>
+        pk={{ request.user.pk }}
+        var socketVideo = new ReconnectingWebSocket(
+            'ws://localhost:8000/ws/chat/' + pk );
+    
+            var initiator = false
+            let t = 0
+            let p = null
+            let playaudio= true
+            var type_call=""    ////////////////////////////////////////
+    
+          socketVideo.onopen = function(event) {
+            console.log("Connexion receiver établie.");
+            socketVideo.onerror = function(error) {
+                console.error(error);
+            };
+            socketVideo.onclose = function(event) {
+              console.log("Connexion receiver terminé.");
+            };
+            socketVideo.onmessage= function(e){
+                console.log('nouveau message', e)
+                var data = JSON.parse(e.data);
+                var message = data['message'];
+                type_call=data['call']                /////////////////////////////////
+                console.log(type_call)
+                console.log('nouveau message', message)
+                t = t + 1
+            //  if(initiator != true){
+                document.querySelector("#receive-text").value = message
+                // $("#calling_video .text-title").html(current)
+                if(initiator == true && t==2){
+                    console.log('new signal')
+                    p.signal(JSON.parse(document.querySelector('#receive-text').value))
+                }
+    
+             }
+          }
+          //end sockect
+    
+          function bindEvents(p){
+              console.log('simplepeer',p)
+              p.on('error', function(err) {
+                  console.log('error', err)
+              })
+              p.on('signal', function(data){
+                  document.querySelector('#caller').textContent = JSON.stringify(data)
+                  var text = document.querySelector("#caller").value
+                  console.log(type_call)
+                    socketVideo.send(JSON.stringify({
+                      'message': text,
+                      'call':type_call                                                          ///////////////////////////
+                  }));
+                  console.log('test send message')
+              })
+              p.on('stream', function(stream){
+                let emitterVideo = document.createElement('video')
+                document.getElementById('video-receive').appendChild(emitterVideo)
+                emitterVideo.srcObject = stream
+                emitterVideo.play()
+              })
+              document.querySelector('#repondre').addEventListener('click',function(e){
+                console.log('hello word')
+                p.signal(JSON.parse(document.querySelector('#receive-text').value))
+              })
+          }
+          function startpeer(initiator, appel) {                                  ///////////////////////////////////
+              navigator.mediaDevices.getUserMedia({video:appel, audio: true}).then(function(stream) {   ///////////////////
+    
+                 p = new SimplePeer({
+                      initiator: initiator,
+                      stream: stream,
+                      trickle: false
+                  })
+                  console.log('test test')
+                   window.initiator = initiator
+    
+                  bindEvents(p)
+              /* use the stream */
+              let emitterVideo = document.createElement('video')
+              document.getElementById('video-send').appendChild(emitterVideo)
+              emitterVideo.srcObject = stream
+              emitterVideo.volume = 1
+              emitterVideo.play()
+              if(p.initiator == false){
+                  p.signal(JSON.parse(document.querySelector('#receive-text').value))
+               }
+              console.log('stream',initiator)
+              // socket.emit('new message',emitterVideo.srcObject)
+              }).catch(function(err) {
+              /* handle the error */
+              });
+          }
+    
+    
+         function receive(){
+             console.log("type d appel "+type_call)             ////////////////////
+             if(type_call=="video"){                            //
+                startpeer(false,true)                           //
+             }                                                  //
+             else if(type_call=='audio'){                       //
+                startpeer(false,false)                          ////////////////////
+             }
+            
+         }
+</script>
+</html>

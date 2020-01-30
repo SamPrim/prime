@@ -25,5 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('chat/', include('Video.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('register/', views.register, name="register")
+    path('register/', views.register, name="register"),
+    path('anime/', views.anime, name="anime")
 ]

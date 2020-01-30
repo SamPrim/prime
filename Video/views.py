@@ -43,6 +43,12 @@ def ListeAmis():
     response=requests.get("http://localhost:8000/chat/api/membre/?format=json")
     liste_membre=response.json()
     return liste_membre
+
+def room(request, id):
+    return render(request, 'room.html',{})
+
+def anime(request):
+    return render(request, 'anime.html', {})
 """def index(request):
     if request.POST:
         form = NameForm(request.POST)

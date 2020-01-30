@@ -1,0 +1,172 @@
+/* ------------------------- style video chat --------------------- */
+/* ------------------------- Reception appel --------------------- */
+
+article.calling {
+background-color: #fff;
+padding: 0;
+height: 400px;
+width: 20%;
+position: fixed;
+left: 40%;
+top: -500px;
+overflow: hidden;
+margin: 30px 0;
+border-radius: 12px;
+}
+article.calling .options{
+bottom: 40px;
+position: absolute;
+display: flex;
+justify-content: center;
+}
+article.calling .phone{
+padding: 20px;
+}
+article.calling .options .phone .accept {
+border-radius: 100%;
+padding: 15px;
+}
+article.calling .options .phone .decline {
+border-radius: 100%;
+padding: 15px;
+}
+article.calling .img-block{
+height: auto;
+width: auto;
+}
+article.calling .img-block img{
+opacity: 0.5;
+height: 100%;
+width: 100%;
+}
+.bg-accept{
+background-color: #005a81;
+color: #fff;
+}
+.bg-decline{
+background-color: #f07000;
+color: #fff;
+}
+.bg-volume{
+background-color: #f07000;
+color: #fff;
+}
+.phone button{
+border: none;
+}
+.phone button:hover{
+box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+}
+.text-title{
+position: absolute;
+color: #fff;
+margin-top: 80px;
+z-index: 10;
+width: 100%;
+text-align: center
+}
+/* ------------------------- En attente de reception appel --------------------- */
+
+article.call {
+    background-color: #fff;
+    padding: 0;
+    height: 600px;
+    width: 50%;
+    position: fixed;
+    left: 25%;
+    top: -700px;
+    overflow: hidden;
+    margin: 30px 0;
+    border-radius: 12px;
+}
+article.call .options{
+    bottom: 40px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+}
+article.call .phone{
+    padding: 20px;
+}
+article.call .options .phone .accept {
+    border-radius: 100%;
+    padding: 15px;
+}
+article.call .options .phone .decline {
+    border-radius: 100%;
+    padding: 15px;
+}
+article.call .video-bg, article.call .video-ft{
+    height: auto;
+    width: auto;
+}
+article.call .video-bg video{
+    height: 100%;
+    width: 100%;
+}
+article.call .video-ft video{
+    position: absolute;
+    height: 150px;
+    width: 150px;
+    left: 10px;
+    top: 10px;
+    border-radius: 12px;
+}
+
+/* ----------------------------- responsive mobile ---------------------------- */
+@media only screen and (max-width: 600px) {
+    article.call {
+    background-color: #fff;
+    padding: 0;
+    height: 600px;
+    width: 90%;
+    position: fixed;
+    left: 15px;
+    top: -700px;
+    overflow: hidden;
+    margin: 30px 0;
+    border-radius: 12px;
+    }
+    article.call .options{
+    bottom: 90px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    }
+    article.call .phone{
+    padding: 20px;
+    }
+    article.call .options .phone .accept {
+    border-radius: 100%;
+    padding: 15px;
+    }
+    article.call .options .phone .decline {
+    border-radius: 100%;
+    padding: 15px;
+    }
+    article.call .video-bg, article.call .video-ft{
+    height: auto;
+    width: auto;
+    }
+    article.call .video-bg video {
+    height: auto;
+    width: auto;
+    /* min-width: 100%; */
+    min-width: 10%;
+    min-height: 100%;
+    background-size: cover;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: -10;
+    }
+    article.call .video-ft video{
+    position: absolute;
+    height: 150px;
+    width: 150px;
+    left: 10px;
+    top: 10px;
+    border-radius: 12px;
+    }
+
+}
