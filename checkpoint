@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/klapeers17/Documents/prime/Chat/model.tflearn"
+all_model_checkpoint_paths: "/home/klapeers17/Documents/prime/Chat/model.tflearn"

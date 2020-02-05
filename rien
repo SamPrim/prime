@@ -1,0 +1,10 @@
+ackground: #c83349;
+    color: #fff;
+    padding: 7px 15px;
+    border-radius: 3px;
+    width: 350px;
+    position: fixed;
+    top: 25%;
+    right: 12%;
+    z-index: 3;
+    transform: ro;

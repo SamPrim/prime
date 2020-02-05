@@ -1,0 +1,143 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" >  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/4.0.2/bootstrap-material-design.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'intro.css' %}">
+    <link rel="stylesheet" href="{% static 'shepherd.css' %}">    <title>Chatbot</title>
+  </head>
+  <style>
+   
+  </style>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <a class="navbar-brand example-css-selector" data-intro="Debut de la presenation" data-step="4" href="#">Hidden brand</a>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+              <li class="nav-item active">
+                <a class="nav-link" href="#" data-intro="Acceder à Home" data-step="3">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+              </li>
+            </ul>
+              <input class="form-control mr-sm-2"  placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success  my-2 my-sm-0" data-intro="Bouton rechercher" data-step="2" >Search</button>
+              <button class="btn btn-info  my-2 my-sm-1" data-intro="Bouton Guide" data-step="5" id="run">Guide</button>
+          </div>
+        </nav>
+        <div id="body"> 
+          
+        <div >
+          <!--<div id="chat-overlay"></div>-->
+          <img class="leo" id="chat-circle" src="{% static 'img/leo.png' %}" alt="" data-intro="Commencez le dialogue avec LEO pour plus d information" data-step="1">
+          <!--<i class="material-icons">speaker_phone</i>-->
+        </div>
+          
+        <div class="chat-box" id="pk" pk="{{request.user.pk}}">
+          <div class="chat-box-header">
+            Chat With Leo
+            <span class="chat-box-toggle"><i class="material-icons">close</i></span>
+          </div>
+          <div class="chat-box-body">
+            <div class="chat-box-overlay">   
+            </div>
+            <!--chat log debut--><div class="chat-logs">
+
+            </div><!--chat-log fin -->
+          </div>
+          <div class="chat-input">      
+              <input type="text" id="chat-input" placeholder="Send a message..."/>
+            <button type="submit" class="chat-submit" id="chat-submit"><i class="material-icons">send</i></button>     
+          </div>
+        </div>  
+      </div>
+      <div class="row">
+        <div class="col">
+          
+        </div>
+      </div>
+  </div>
+  <!-- Guide Leo start-->
+ 
+   <div id="first" >
+   <div style="margin:0 auto; display:block;text-align: center; margin-top: 50vh;transform: translateY(-50%)">
+      <img id="leo_center" src="{% static 'img/leo.png' %}"  /></div>
+      <button class="btn" id="close"><span class="glyphicon glyphicon-remove" style="margin: 0 auto"></span></button>
+      <div class="bubble">
+        <div class="bubble-text">
+        <h6>Bonjour, je suis Leo, votre assistant. Je suis la pour vous.</h6>
+      </div>
+      <div id="bubble">
+        <h6>Si vous souhaitez effectuer une visite guider de notre page cliquer sur <a id="continue">continuer</a><br>
+        Sinon cliquer <a id="stop">Ici</a> pour aller directement à la page</h6>
+      </div>
+      </div>
+  </div> 
+ 
+
+  
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-peer/9.6.2/simplepeer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+    <script src="{% static 'leo.js' %}"></script>
+    
+    <script>
+      document.getElementById("run").addEventListener('click', function(){
+        introJs().start()
+      })
+    </script>
+  </body>
+
+  <script>
+    
+  </script>
+  <script>
+    $('#bubble').hide()
+    $('.bubble-text').hide()
+    setTimeout(function(){
+      $('.bubble-text').show()
+    }, 1000)
+    setTimeout(function(){
+      $('#bubble').show()
+    }, 5000)
+    $('#stop').click(function(){
+      $('#first').hide()
+    })
+    $('#continue').click(function(){
+      introJs().start()
+      $('#first').hide()
+    })
+    document.getElementById('close').addEventListener('click', function(){
+      console.log('OK')
+      document.getElementById('first').style.display="none"
+    })
+  </script>
+
+</html>

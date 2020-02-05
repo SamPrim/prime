@@ -47,8 +47,10 @@ def ListeAmis():
 def room(request, id):
     return render(request, 'room.html',{})
 
-def anime(request):
-    return render(request, 'anime.html', {})
+def anime(request, id):
+    response= render(request, 'anime.html', {})
+    response.set_cookie('page_guide', 'True', max_age = None)
+    return response
 """def index(request):
     if request.POST:
         form = NameForm(request.POST)
